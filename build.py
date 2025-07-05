@@ -51,7 +51,7 @@ def main():
     print("Injecting project list into template...")
     # --- THIS IS THE CORRECTED LINE ---
     # It now correctly finds and replaces the placeholder comment.
-    final_html = template.replace("", project_html)
+    final_html = template.replace("TEMP", project_html)
     
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     with open(OUTPUT_FILE, 'w', encoding="utf-8") as f:
