@@ -5,6 +5,7 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
+# Add permissions for the deployment job
 permissions:
   contents: read
   pages: write
@@ -12,6 +13,11 @@ permissions:
 
 jobs:
   build-and-deploy:
+    # Add the environment configuration here
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }} # This line makes the URL available in the Actions summary
+    
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
