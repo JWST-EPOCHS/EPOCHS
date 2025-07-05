@@ -30,7 +30,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build HTML from projects.yaml
-        # Set the python default encoding to utf-8 for this step
         env:
           PYTHONIOENCODING: "utf-8"
         run: python build.py
@@ -42,12 +41,13 @@ jobs:
             echo "::error::SITE_PASSWORD_HASH secret not set!"
             exit 1
           fi
-          # Read template and write final JS file, ensuring UTF-8
+          # Read template and write final JS file directly into the dist folder
           content=$(cat password.template.js)
           content=${content/__PASSWORD_HASH_PLACEHOLDER__/$HASHED_PASSWORD}
           echo "$content" > dist/password.js
       
-      - name: Copy Stylesheet
+      - name: Copy Stylesheet to dist
+        # This command ensures styles.css is in the deployment package
         run: cp styles.css dist/
 
       - name: Upload artifact
