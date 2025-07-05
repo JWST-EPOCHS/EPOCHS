@@ -1,0 +1,52 @@
+name: Deploy Static Site to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build HTML from projects.yaml
+        run: python build.py
+
+      - name: Prepare Password Script
+        # This command replaces the placeholder in the JS template with the hashed password from GitHub Secrets
+        run: |
+          HASHED_PASSWORD=${{ secrets.SITE_PASSWORD_HASH }}
+          if [ -z "$HASHED_PASSWORD" ]; then
+            echo "::error::SITE_PASSWORD_HASH secret not set!"
+            exit 1
+          fi
+          sed -i "s|__PASSWORD_HASH_PLACEHOLDER__|${HASHED_PASSWORD}|" password.template.js
+          mv password.template.js dist/password.js
+      
+      - name: Copy Stylesheet
+        run: cp styles.css dist/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
