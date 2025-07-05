@@ -28,7 +28,8 @@ def generate_html_items(items, base_url):
             html += "<li>\n"
             html += f"<a href=\"{full_url}\" target=\"project-frame\" data-has-info=\"{has_info}\" data-project-name=\"{project_name}\">\n"
             
-            html += f"<span>{project_name.replace(f' {item.get("version", "")}'.strip(), '')}</span>\n"
+            updated_name = project_name.replace(f' {item.get("version", "")}'.strip(), '')
+            html += f"<span>{updated_name}</span>\n"
             
             html += f"{version_badge}\n</a>\n</li>\n"
     return html
