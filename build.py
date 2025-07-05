@@ -27,7 +27,8 @@ def generate_html_items(items, base_url):
             
             html += "<li>\n"
             html += f"<a href=\"{full_url}\" target=\"project-frame\" data-has-info=\"{has_info}\" data-project-name=\"{project_name}\">\n"
-     
+            
+            # This line removes the version from the display name
             display_name = project_name.replace(f' {item.get("version", "")}'.strip(), '')
             html += f"<span>{display_name}</span>\n"
             
@@ -48,11 +49,11 @@ def main():
         template = f.read()
 
     print("Injecting project list into template...")
+    # --- THIS IS THE CORRECTED LINE ---
+    # It now correctly finds and replaces the placeholder comment.
     final_html = template.replace("", project_html)
     
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    # --- THIS IS THE KEY FIX ---
-    # Explicitly write the output file with UTF-8 encoding
     with open(OUTPUT_FILE, 'w', encoding="utf-8") as f:
         f.write(final_html)
         
