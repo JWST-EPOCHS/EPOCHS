@@ -10,6 +10,6 @@ projects:
       - type: project
         name: JOF
         version: v12
-        path: epochs-fitsmap/
+        path: epochs-fitsmap
         has_info: true
 
