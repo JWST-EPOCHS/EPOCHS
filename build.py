@@ -27,9 +27,9 @@ def generate_html_items(items, base_url):
             
             html += "<li>\n"
             html += f"<a href=\"{full_url}\" target=\"project-frame\" data-has-info=\"{has_info}\" data-project-name=\"{project_name}\">\n"
-            
-            updated_name = project_name.replace(f' {item.get("version", "")}'.strip(), '')
-            html += f"<span>{updated_name}</span>\n"
+     
+            display_name = project_name.replace(f' {item.get("version", "")}'.strip(), '')
+            html += f"<span>{display_name}</span>\n"
             
             html += f"{version_badge}\n</a>\n</li>\n"
     return html
@@ -37,21 +37,23 @@ def generate_html_items(items, base_url):
 def main():
     """Main function to build the final HTML file."""
     print("Reading project data...")
-    with open(PROJECTS_FILE, 'r') as f:
+    with open(PROJECTS_FILE, 'r', encoding="utf-8") as f:
         config = yaml.safe_load(f)
 
     print("Generating project list HTML...")
     project_html = generate_html_items(config.get("projects", []), config.get("r2_base_url", ""))
 
     print("Reading HTML template...")
-    with open(TEMPLATE_FILE, 'r') as f:
+    with open(TEMPLATE_FILE, 'r', encoding="utf-8") as f:
         template = f.read()
 
     print("Injecting project list into template...")
     final_html = template.replace("", project_html)
     
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    with open(OUTPUT_FILE, 'w') as f:
+    # --- THIS IS THE KEY FIX ---
+    # Explicitly write the output file with UTF-8 encoding
+    with open(OUTPUT_FILE, 'w', encoding="utf-8") as f:
         f.write(final_html)
         
     print(f"Successfully generated '{OUTPUT_FILE}'")

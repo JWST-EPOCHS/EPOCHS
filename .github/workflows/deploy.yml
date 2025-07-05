@@ -5,7 +5,6 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
-# Add permissions for the deployment job
 permissions:
   contents: read
   pages: write
@@ -13,10 +12,9 @@ permissions:
 
 jobs:
   build-and-deploy:
-    # Add the environment configuration here
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }} # This line makes the URL available in the Actions summary
+      url: ${{ steps.deployment.outputs.page_url }}
     
     runs-on: ubuntu-latest
     steps:
@@ -32,18 +30,22 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build HTML from projects.yaml
+        # Set the python default encoding to utf-8 for this step
+        env:
+          PYTHONIOENCODING: "utf-8"
         run: python build.py
 
       - name: Prepare Password Script
-        # This command replaces the placeholder in the JS template with the hashed password from GitHub Secrets
         run: |
           HASHED_PASSWORD=${{ secrets.SITE_PASSWORD_HASH }}
           if [ -z "$HASHED_PASSWORD" ]; then
             echo "::error::SITE_PASSWORD_HASH secret not set!"
             exit 1
           fi
-          sed -i "s|__PASSWORD_HASH_PLACEHOLDER__|${HASHED_PASSWORD}|" password.template.js
-          mv password.template.js dist/password.js
+          # Read template and write final JS file, ensuring UTF-8
+          content=$(cat password.template.js)
+          content=${content/__PASSWORD_HASH_PLACEHOLDER__/$HASHED_PASSWORD}
+          echo "$content" > dist/password.js
       
       - name: Copy Stylesheet
         run: cp styles.css dist/
