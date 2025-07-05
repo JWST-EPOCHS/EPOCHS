@@ -1,12 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FitsMap Launcher</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
+
+    <div id="password-overlay">
+        <div id="password-box">
+            <h2>Enter Password</h2>
+            <p>Please enter the password to access the FitsMap projects.</p>
+            <input type="password" id="password-input" placeholder="Password">
+            <button id="password-submit">Submit</button>
+            <p id="password-error">Incorrect password. Please try again.</p>
+        </div>
+    </div>
+
     <div id="main-content">
         <div id="sidebar">
-            <h1>EPOCHS v2</h1>
+            <h1>FitsMap Projects</h1>
             <ul id="project-list">
-                TEMP
                 </ul>
             <div id="info-box"></div>
         </div>
+        <div id="content">
+            <div id="iframe-container">
+                <iframe name="project-frame" id="project-frame"></iframe>
+                <div id="placeholder">Select a project from the sidebar to begin.</div>
+            </div>
         </div>
-    </body>
+    </div>
+
+    <script src="password.js"></script>
+    <script>
+        // --- Info Box Logic ---
+        const infoBox = document.getElementById('info-box');
+        
+        function initializeProjectLinks() {
+            document.querySelectorAll('#project-list a').forEach(link => {
+                link.addEventListener('mouseenter', async (event) => {
+                    if (link.dataset.hasInfo !== 'true') return;
+                    
+                    const projectUrl = new URL(link.href);
+                    const infoUrl = `${projectUrl.origin}${projectUrl.pathname.replace(/index\.html$/, '')}info.json`;
+
+                    try {
+                        const response = await fetch(infoUrl);
+                        if (!response.ok) throw new Error('File not found');
+                        const data = await response.json();
+                        
+                        let content = `<h3>${link.dataset.projectName}</h3>`;
+                        for (const [key, value] of Object.entries(data)) {
+                            content += `<p><strong>${key}:</strong> ${value}</p>`;
+                        }
+                        infoBox.innerHTML = content;
+                        infoBox.style.display = 'block';
+                    } catch (err) {
+                        infoBox.innerHTML = `<h3>${link.dataset.projectName}</h3><p>Could not load info.json.</p>`;
+                        infoBox.style.display = 'block';
+                    }
+                });
+
+                link.addEventListener('click', () => {
+                    document.getElementById('placeholder').style.display = 'none';
+                    document.querySelectorAll('#project-list a').forEach(el => el.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+        }
+
+        document.getElementById('sidebar').addEventListener('mouseleave', () => {
+            infoBox.style.display = 'none';
+        });
+    </script>
+</body>
 </html>
