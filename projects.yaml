@@ -5,7 +5,7 @@ r2_base_url: "https://pub-f9d705ba92cc46af8c26912d13d8f25c.r2.dev"
 # A list of your projects and folders.
 projects:
   - type: folder
-    name: JOF
+    name: JADES
     children:
       - type: project
         name: JOF

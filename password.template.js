@@ -40,5 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function unlockPage() {
         overlay.style.display = 'none';
         mainContent.style.display = 'flex';
+        if (window.onUnlock) {
+            window.onUnlock(); 
+        }
     }
 });

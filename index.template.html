@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FitsMap Launcher</title>
+    <title>EPOCHS</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -18,10 +18,9 @@
     </div>
 
     <div id="main-content">
-        <div id="sidebar">
-            <h1>FitsMap Projects</h1>
+        <div id="sidebar" onmouseleave="hideInfo()">
+            <h1>EPOCHS v2 Surveys</h1>
             <ul id="project-list">
-                FITS_TEMP
                 </ul>
             <div id="info-box"></div>
         </div>
@@ -35,45 +34,60 @@
 
     <script src="password.js"></script>
     <script>
-        // --- Info Box Logic ---
-        const infoBox = document.getElementById('info-box');
-        
-        function initializeProjectLinks() {
-            document.querySelectorAll('#project-list a').forEach(link => {
-                link.addEventListener('mouseenter', async (event) => {
-                    if (link.dataset.hasInfo !== 'true') return;
-                    
-                    const projectUrl = new URL(link.href);
-                    const infoUrl = `${projectUrl.origin}${projectUrl.pathname.replace(/index\.html$/, '')}info.json`;
-
-                    try {
-                        const response = await fetch(infoUrl);
-                        if (!response.ok) throw new Error('File not found');
-                        const data = await response.json();
+        // --- START OF CORRECTION ---
+        // We wrap all the logic in this event listener to ensure the HTML is fully loaded
+        // before we try to find and modify elements.
+        document.addEventListener('DOMContentLoaded', () => {
+            const infoBox = document.getElementById('info-box');
+            
+            // This function sets up the hover and click events for each project link
+            function initializeProjectLinks() {
+                document.querySelectorAll('#project-list a').forEach(link => {
+                    // Event for showing the info box on hover
+                    link.addEventListener('mouseenter', async (event) => {
+                        if (link.dataset.hasInfo !== 'true') return;
                         
-                        let content = `<h3>${link.dataset.projectName}</h3>`;
-                        for (const [key, value] of Object.entries(data)) {
-                            content += `<p><strong>${key}:</strong> ${value}</p>`;
+                        // Construct the full URL to the info.json file on R2
+                        const projectUrl = new URL(link.href);
+                        const infoUrl = `${projectUrl.origin}${projectUrl.pathname.replace(/index\.html$/, '')}info.json`;
+
+                        try {
+                            const response = await fetch(infoUrl);
+                            if (!response.ok) throw new Error(`File not found at ${infoUrl}`);
+                            const data = await response.json();
+                            
+                            let content = `<h3>${link.dataset.projectName}</h3>`;
+                            for (const [key, value] of Object.entries(data)) {
+                                content += `<p><strong>${key.replace(/_/g, ' ')}:</strong> ${value}</p>`;
+                            }
+                            infoBox.innerHTML = content;
+                            infoBox.style.display = 'block';
+                        } catch (err) {
+                            console.error("Failed to fetch info.json:", err);
+                            infoBox.innerHTML = `<h3>${link.dataset.projectName}</h3><p>Could not load info.json.</p>`;
+                            infoBox.style.display = 'block';
                         }
-                        infoBox.innerHTML = content;
-                        infoBox.style.display = 'block';
-                    } catch (err) {
-                        infoBox.innerHTML = `<h3>${link.dataset.projectName}</h3><p>Could not load info.json.</p>`;
-                        infoBox.style.display = 'block';
-                    }
-                });
+                    });
 
-                link.addEventListener('click', () => {
-                    document.getElementById('placeholder').style.display = 'none';
-                    document.querySelectorAll('#project-list a').forEach(el => el.classList.remove('active'));
-                    link.classList.add('active');
+                    // Event for handling the click to load the map
+                    link.addEventListener('click', () => {
+                        document.getElementById('placeholder').style.display = 'none';
+                        document.querySelectorAll('#project-list a').forEach(el => el.classList.remove('active'));
+                        link.classList.add('active');
+                    });
                 });
-            });
-        }
+            }
 
-        document.getElementById('sidebar').addEventListener('mouseleave', () => {
-            infoBox.style.display = 'none';
+            // Hide the info box when the mouse leaves the sidebar area
+            window.hideInfo = function() {
+                infoBox.style.display = 'none';
+            }
+            
+            // This function is called from your password.js file after successful login
+            window.onUnlock = initializeProjectLinks;
+
         });
+        // --- END OF CORRECTION ---
     </script>
 </body>
 </html>
