@@ -33,6 +33,8 @@ def generate_html_items(items, base_url):
             html += f"<span>{display_name}</span>\n"
             
             html += f"{version_badge}\n</a>\n</li>\n"
+
+    print(html)
     return html
 
 def main():

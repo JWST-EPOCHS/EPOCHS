@@ -1,5 +1,4 @@
-# The base URL of your public Cloudflare R2 bucket.
-# Example: https://pub-your-id.r2.dev
+# The base URL of the public Cloudflare R2 bucket.
 r2_base_url: "https://pub-f9d705ba92cc46af8c26912d13d8f25c.r2.dev"
 
 # A list of your projects and folders.
