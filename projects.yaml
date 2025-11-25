@@ -6,6 +6,6 @@ projects:
   - type: project
     name: GLIMPSE
     version: v14_caio_v2
-    path: epochs-fitsmap
+    path: GLIMPSE_v14_caio_v2
     has_info: true
 
