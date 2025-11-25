@@ -1,14 +1,11 @@
 # The base URL of the public Cloudflare R2 bucket.
-r2_base_url: "https://pub-f9d705ba92cc46af8c26912d13d8f25c.r2.dev"
+r2_base_url: "https://pub-e560206256d04fa3943c852e8316ab9e.r2.dev"
 
 # A list of your projects and folders.
 projects:
-  - type: folder
-    name: JADES
-    children:
-      - type: project
-        name: JOF
-        version: v12
-        path: epochs-fitsmap
-        has_info: true
+  - type: project
+    name: GLIMPSE
+    version: v14_caio_v2
+    path: epochs-fitsmap
+    has_info: true
 
