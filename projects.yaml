@@ -8,34 +8,35 @@ projects:
     version: v14
     path: GLIMPSE_v14_caio_v2
     has_info: true
- - type: project
-   name: NGDEEP
-   version: v11
-   path: NGDEEP2_v11
-   has_info: true
- - type: project
-   name: SMACS-0723
-   version: v9
-   path: SMACS-0723_v9
-   has_info: true
- - type: project
-   name: GRB230207A
-   version: v12
-   path: GRB230207A-FULL_v12
- - type: folder
+  - type: project
+    name: NGDEEP
+    version: v11
+    path: NGDEEP2_v11
+    has_info: true
+  - type: project
+    name: SMACS-0723
+    version: v9
+    path: SMACS-0723_v9
+    has_info: true
+  - type: project
+    name: GRB230207A
+    version: v12
+    path: GRB230207A-FULL_v12
+    has_info: true
+  - type: folder
     name: JADES
     children:
       - type: project
-          name: JOF
-          version: v12
-          path: JADES/JOF_v12
-          has_info: true
-- type: folder
+        name: JOF
+        version: v12
+        path: JADES/JOF_v12
+        has_info: true
+  - type: folder
     name: PEARLS
     children:
       - type: project
-          name: G165
-          version: v11
-          path: PEARLS/G165_v11
-          has_info: true
+        name: G165
+        version: v11
+        path: PEARLS/G165_v11
+        has_info: true
 
