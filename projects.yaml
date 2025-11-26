@@ -28,8 +28,8 @@ projects:
     children:
       - type: project
         name: JOF
-        version: v12
-        path: JADES/JOF_v12
+        version: v11
+        path: JADES/JOF_v11
         has_info: true
   - type: folder
     name: PEARLS
@@ -38,5 +38,13 @@ projects:
         name: G165
         version: v11
         path: PEARLS/G165_v11
+        has_info: true
+  - type: folder
+    name: CEERS
+    children:
+      - type: project
+        name: CEERSP9
+        version: v14
+        path: CEERS/CEERSP9_v14
         has_info: true
 
