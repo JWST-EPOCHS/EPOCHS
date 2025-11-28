@@ -39,6 +39,11 @@ projects:
         version: v11
         path: PEARLS/G165_v11
         has_info: true
+      - type: project
+        name: MACS-0416
+        version: v9
+        path: PEARLS/MACS-0416_v9/
+        has_info: true
   - type: folder
     name: CEERS
     children:
@@ -46,5 +51,13 @@ projects:
         name: CEERSP9
         version: v14
         path: CEERS/CEERSP9_v14
+        has_info: true
+- type: folder
+    name: PRIMER
+    children:
+      - type: project
+        name: COSMOS
+        version: v14
+        path: PRIMER/PRIMER-COSMOS_v12/
         has_info: true
 
