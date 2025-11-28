@@ -52,7 +52,7 @@ projects:
         version: v14
         path: CEERS/CEERSP9_v14
         has_info: true
-- type: folder
+  - type: folder
     name: PRIMER
     children:
       - type: project
