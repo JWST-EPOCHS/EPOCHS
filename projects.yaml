@@ -42,7 +42,7 @@ projects:
       - type: project
         name: MACS-0416
         version: v9
-        path: PEARLS/MACS-0416_v9/
+        path: PEARLS/MACS-0416_v9
         has_info: true
   - type: folder
     name: CEERS
@@ -57,7 +57,7 @@ projects:
     children:
       - type: project
         name: COSMOS
-        version: v14
-        path: PRIMER/PRIMER-COSMOS_v12/
+        version: v12
+        path: PRIMER/PRIMER-COSMOS_v12
         has_info: true
 
