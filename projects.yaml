@@ -31,6 +31,10 @@ projects:
         version: v11
         path: JADES/JOF_v11
         has_info: true
+      - type: project
+        name: JADES-GS-South
+        version: v13
+        path: JADES/JADES-DR3-GS-South_v13
   - type: folder
     name: PEARLS
     children:
